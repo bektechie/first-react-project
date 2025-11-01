@@ -97,7 +97,7 @@ const Contact = () => {
           >
             Twitter
           </a>
-        </li>
+        </li>a
         <li>
           <a
             href="https://instagram.com"

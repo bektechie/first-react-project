@@ -1,38 +1,38 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./assets/navbar";
-import Home from "./pages/home";
-import Product from "./pages/product";
-import Price from "./pages/price";
-import Contact from "./pages/contact";
-import About from "./pages/about";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"; // ✅ only once
 
-createRoot(document.getElementById("root")).render(
+// Pages & components
+import Home from "./pages/home"; // your layout
+import Dashboard from "./components/Dashboard";
+import Customers from "./components/Customers";
+import Products from "./components/Products";
+import Categories from "./components/Categories";
+import Admins from "./components/Admins";
+import Settings from "./components/Settings";
+
+const root = createRoot(document.getElementById("root"));
+
+root.render(
   <StrictMode>
     <BrowserRouter>
-      <Navbar />
-      <div
-        style={{
-          backgroundColor: "#9b9bc9ff",
-          minHeight: "100vh",
-          paddingBottom: "50px",
-          margin: "20px",
-          padding: "30px",
-          borderRadius: "15px",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.2)"
-        }}
-      >
-        <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/product" element={<Product />} />
-          <Route path="/price" element={<Price />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-      </div>
-      <div>
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />}>
+          <Route index element={<Navigate to="dashboard" replace />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="customers" element={<Customers />} />
+          <Route path="products" element={<Products />} />
+          <Route path="categories" element={<Categories />} />
+          <Route path="admins" element={<Admins />} />
+          <Route path="settings" element={<Settings />} />
+
+          {/* Optional: redirect /home to /dashboard */}
+          <Route path="home" element={<Navigate to="dashboard" replace />} />
+        </Route>
+
+        {/* Catch-all: redirect unknown paths to /dashboard */}
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
     </BrowserRouter>
   </StrictMode>
 );
